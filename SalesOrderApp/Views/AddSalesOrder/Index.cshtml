@@ -1,0 +1,54 @@
+﻿@model IEnumerable<SalesOrderApp.Models.SalesOrder>
+
+@{
+    ViewData["Title"] = "Sales Orders";
+}
+
+<div class="container mx-auto p-8 bg-gray-50 rounded-lg shadow-md">
+    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Sales Orders List</h1>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg shadow-md mt-6">
+            <thead>
+                <tr class="text-left font-semibold text-gray-700 bg-gray-200">
+                    <th class="py-3 px-4">Sales Order No.</th>
+                    <th class="py-3 px-4">Customer ID</th>
+                    
+                    <th class="py-3 px-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr class="border-t border-gray-200 hover:bg-gray-100 transition-colors">
+                            <td class="py-3 px-4">@item.SalesOrderNo</td>
+                            <td class="py-3 px-4">@item.CustomerId</td>
+                            
+                            <td class="py-3 px-4 flex space-x-2">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="bg-blue-500 text-white font-bold py-1 px-3 rounded-full hover:bg-blue-600 transition duration-300">View</a>
+                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this sales order?');">
+                                    <button type="submit" class="bg-red-500 text-white font-bold py-1 px-3 rounded-full hover:bg-red-600 transition duration-300">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="py-3 px-4 text-center text-gray-500">No sales orders have been submitted yet.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-6 flex justify-center">
+        <a asp-action="Add" class="bg-green-500 text-white font-bold py-2 px-6 rounded-full shadow-lg hover:bg-green-600 transition duration-300 ease-in-out">Add New Sales Order</a>
+    </div>
+</div>
+
+<!-- Tailwind CSS and custom styles for the form -->
+<script src="https://cdn.tailwindcss.com"></script>

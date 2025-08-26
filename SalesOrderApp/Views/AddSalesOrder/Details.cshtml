@@ -1,0 +1,82 @@
+﻿@model SalesOrderApp.Models.SalesOrder
+
+@{
+    ViewData["Title"] = "Sales Order Details";
+    decimal totalAmount = Model.Items.Sum(item => item.Amount);
+}
+
+<div class="container mx-auto p-8 bg-gray-50 rounded-lg shadow-md">
+    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Sales Order Details</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="font-semibold text-gray-600">Sales Order No.</h2>
+            <p class="text-gray-800 font-bold">@Model.SalesOrderNo</p>
+        </div>
+       
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="font-semibold text-gray-600">Customer ID</h2>
+            <p class="text-gray-800 font-bold">@Model.CustomerId</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="font-semibold text-gray-600">Payment Terms</h2>
+            <p class="text-gray-800 font-bold">@Model.PaymentTerms</p>
+        </div>
+    </div>
+
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">Products</h2>
+
+    <div class="overflow-x-auto mb-8">
+        <table class="min-w-full bg-white rounded-lg shadow-md">
+            <thead>
+                <tr class="text-left font-semibold text-gray-700 bg-gray-200">
+                    <th class="py-3 px-4">Sr.No</th>
+                    <th class="py-3 px-4">Product Name</th>
+                    <th class="py-3 px-4">Additional Info</th>
+                    <th class="py-3 px-4">Qty</th>
+                    <th class="py-3 px-4">Rate</th>
+                    <th class="py-3 px-4">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Items != null && Model.Items.Any())
+                {
+                    int srNo = 1;
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr class="border-t border-gray-200">
+                            <td class="py-3 px-4">@(srNo++)</td>
+                            <td class="py-3 px-4">@item.ProductName</td>
+                            <td class="py-3 px-4">@item.AdditionalInfo</td>
+                            <td class="py-3 px-4">@item.Qty</td>
+                            <td class="py-3 px-4">@item.Rate.ToString("0.00")</td>
+                            <td class="py-3 px-4">@item.Amount.ToString("0.00")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="py-3 px-4 text-center text-gray-500">No items found for this sales order.</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" class="py-3 px-4 text-right font-bold text-gray-800">Totals:</td>
+                    <td class="py-3 px-4 font-bold text-right text-gray-800">@totalAmount.ToString("0.00")</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="flex justify-center">
+        <a asp-action="Index" class="bg-blue-500 text-white font-bold py-2 px-6 rounded-full shadow-lg hover:bg-blue-600 transition duration-300 ease-in-out">Back to List</a>
+    </div>
+</div>
+
+<!-- Tailwind CSS and custom styles for the form -->
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    /* Add any custom styles here if needed */
+</style>
